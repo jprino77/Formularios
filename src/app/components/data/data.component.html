@@ -1,0 +1,83 @@
+<h4>Formularios <small>template</small></h4>
+<hr>
+<!-- [formGroup]="forma" le avisa a angular que es  aproximacion por Data si no esta te toma por defecto Template -->
+<form [formGroup]="forma" (ngSubmit)="guardarCambios()" novalidate="novalidate">
+
+    <div formGroupName='nombreCompleto'>
+
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Nombre</label>
+            <div class="col-8">
+
+                <input class="form-control" type="text" placeholder="Nombre" formControlName="nombre">
+                <div *ngIf="forma.get('nombreCompleto.nombre').errors?.required"> Nombre obligatorio</div>
+                <div *ngIf="forma.get('nombreCompleto.nombre').errors?.minlength"> Por lo menos {{forma.get('nombreCompleto.nombre').errors.minlength.requiredLength}} caracteres </div>
+
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-2 col-form-label">Apellido</label>
+            <div class="col-8">
+
+                <input class="form-control" type="text" placeholder="Apellido" formControlName="apellido">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="form-group row">
+        <label class="col-2 col-form-label">Correo</label>
+        <div class="col-md-8">
+            <!-- formControlName asocia a un atributo del formulario -->
+            <input class="form-control" type="email" placeholder="Correo electrónico" formControlName="email">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-2 col-form-label">Correo</label>
+        <!-- formArrayName elemento que envuelve a todos los inputs -->
+        <div class="col-md-8" formArrayName='pasatiempos'>
+            <!-- formControlName en este caso hace referencia a la posicion dentro del array -->
+            <input type="text" class="form-control" *ngFor="let pasatiempo of forma.controls['pasatiempos'].controls, let i = index" [formControlName]="i">
+        </div>
+
+        <button type="button" class="btn btn-primary" (click)="agregarPasatiempo()"> Nuevo</button>
+    </div>
+
+
+    <div class="form-group row">
+        <label class="col-2 col-form-label">User name</label>
+        <div class="col-md-8">
+            <!-- formControlName asocia a un atributo del formulario -->
+            <input class="form-control" type="input" placeholder="User name" formControlName="username">
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-2 col-form-label">Password</label>
+        <div class="col-md-8">
+            <!-- formControlName asocia a un atributo del formulario -->
+            <input class="form-control" type="password" placeholder="Correo electrónico" formControlName="password1">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-2 col-form-label">Repetir</label>
+        <div class="col-md-8">
+            <!-- formControlName asocia a un atributo del formulario -->
+            <input class="form-control" type="password" placeholder="Correo electrónico" formControlName="password2">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label class="col-2 col-form-label">&nbsp;</label>
+        <div class="input-group col-md-8">
+            <button type="submit" class="btn btn-outline-primary">
+        Guardar
+      </button>
+        </div>
+    </div>
+
+</form>
+<!--forma.status Pending cuando esta esperando para terminar la validacion async  -->
+<pre>{{forma.valid}}<br>{{forma.status}}</pre>
